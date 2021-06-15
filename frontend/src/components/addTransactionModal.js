@@ -43,6 +43,7 @@ export default function SimpleModal(props) {
     const [tradingParty, setTradingParty] = React.useState('Me');
     const [counterParty, setCounterParty] = React.useState('');
     const [amount, setAmount] = React.useState(0);
+    const [amountError, setAmountError] = React.useState(false);
 
 
     const handleOpen = () => {
@@ -55,27 +56,29 @@ export default function SimpleModal(props) {
     };
 
     const handleSubmit = (e) => {
-        //TODO: Add data validations (buttons)
-
         e.preventDefault()
         console.log(tradingParty, counterParty, amount);
-        fetch("http://localhost:3001/transactions", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        if(Math.sign(amount) !== 1) {
+            setAmountError(true)
+        } else {
+            fetch("http://localhost:3001/transactions", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
 
-            },
-            body: JSON.stringify({
-                "trading_party" : tradingParty,
-                "counter_party" : counterParty,
-                "amount" : amount,
+                },
+                body: JSON.stringify({
+                    "trading_party": tradingParty,
+                    "counter_party": counterParty,
+                    "amount": amount,
+                })
+            }).then(response => {
+                if (response.status === 200) {
+                    props.refreshTransactions()
+                    handleClose()
+                }
             })
-        }).then(response => {
-            if (response.status === 200) {
-                props.refreshTransactions()
-                handleClose()
-            }
-        })
+        }
 
     };
 
@@ -89,7 +92,7 @@ export default function SimpleModal(props) {
                 <TextField onInput={e => setCounterParty(e.target.value)} required value={counterParty}
                            id={"standard-required"} label={"Required"}/>
                 <h2>Amount</h2>
-                <TextField onInput={e => setAmount(e.target.value)} required value={amount} id={"standard-required"}
+                <TextField onInput={e => setAmount(e.target.value)} error={amountError} helperText={amountError ? 'Amount must be a positive number' : 'Enter amount'} required value={amount} id={"standard-required"}
                            label={"Required"}/>
 
                 <Button className={classes.textButton} type="submit">Add</Button>
