@@ -43,3 +43,9 @@ A transaction display and compression app built with React and node.js.
 1. MongoDB + mongoose - for a more complex and organized persistency
 1. Bunyan - as a logger for incoming requests and outgoing responses
 
+## Cloning and Running the project
+- The url for the git repository: ``git@github.com:yotamZaken/capitolis.git``
+- Navigate to both the frontend and the backend directories and run ``npm i`` in the Terminal
+- In the backend directory - run ``node index.js`` to bring the server online
+- In the frontend directory - run ``npm start``
+
