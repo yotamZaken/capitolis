@@ -53,7 +53,7 @@ function App() {
                 </Box>
                 <Box display={"flex"} justifyContent={"center"}>
                     <SimpleModal />
-                    <TextButton title={"Compress Transactions"} />
+                    <TextButton onClick={() => {window.location.href='http://localhost:3001/transactions/compressed'}} title={"Compress Transactions"} />
                 </Box>
             </div>
         )
