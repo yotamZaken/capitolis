@@ -1,4 +1,4 @@
-const { Parser } = require('json2csv');
+const {Parser} = require('json2csv');
 
 const compressTransactions = (transactions) => {
     let compressed = {};
@@ -29,13 +29,11 @@ const compressTransactions = (transactions) => {
 }
 
 const convertToCsv = (compressedTransactions) => {
-
     const json2csvParser = new Parser();
     const csv = json2csvParser.parse(compressedTransactions);
 
     return csv;
 }
-
 
 module.exports = {
     compressTransactions,
