@@ -1,3 +1,5 @@
+const { Parser } = require('json2csv');
+
 const compressTransactions = (transactions) => {
     let compressed = {};
 
@@ -5,8 +7,7 @@ const compressTransactions = (transactions) => {
     // tradingParty<>counterParty
     // amount
 
-    // For each transaction
-    // check if combination of tradingParty & counterparty already exist in the array
+    // For each transaction - check if combination of tradingParty & counterparty already exist in the object
     // if true > add transaction amount to the compressed line's total
     // if false > add a new compressed line w/ the current amount
 
@@ -21,13 +22,22 @@ const compressTransactions = (transactions) => {
             }
 
             compressed[`${curr.trading_party}-${curr.counter_party}`] = compressedObj;
-
         }
     })
-    //TODO: Remove the key of each nested object
-    //TODO: Form the final array of objects
-    console.log(compressed)
+
+    return Object.values(compressed);
+}
+
+const convertToCsv = (compressedTransactions) => {
+
+    const json2csvParser = new Parser();
+    const csv = json2csvParser.parse(compressedTransactions);
+
+    return csv;
 }
 
 
-module.exports = {compressTransactions}
+module.exports = {
+    compressTransactions,
+    convertToCsv
+}

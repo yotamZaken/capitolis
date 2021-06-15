@@ -1,6 +1,7 @@
 const express = require('express');
 const transactionsRouter = express.Router();
 const { Transaction } = require('../models/Transaction');
+const {compressTransactions, convertToCsv} = require('../helpers/helpers');
 
 // Add a new transaction
 transactionsRouter.post('/', async (req, res) => {
@@ -18,12 +19,21 @@ transactionsRouter.post('/', async (req, res) => {
 
 transactionsRouter.get('/', async (req, res) => {
     const transactions = await Transaction.find({}).exec();
-
-    //TODO: Require the compression function from helpers.js
-    //TODO: Output the response as a CSV file (look for content disposition)
-    //TODO: Differentiate between getAll compressed and uncompressed (via a parameter)
+    
     res.status(200).json(transactions)
 });
+
+transactionsRouter.get('/compressed', async (req, res) => {
+    const transactions = await Transaction.find({}).exec();
+    const compressedTransactions = convertToCsv(compressTransactions(transactions));
+
+    res.setHeader('Content-disposition', 'attachment; filename=compressedTransactions.csv');
+    res.setHeader('Content-type', 'text/csv');
+
+    res.status(200).send(compressedTransactions).end();
+});
+
+
 
 module.exports = {
     transactionsRouter
