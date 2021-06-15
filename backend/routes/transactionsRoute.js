@@ -5,10 +5,19 @@ const {compressTransactions, convertToCsv} = require('../helpers/helpers');
 
 // Add a new transaction
 transactionsRouter.post('/', async (req, res) => {
-    //TODO: Implement validations for the req.body
+    if (!req.body.counter_party || req.body.counter_party.length === 0) {
+        res.status(400).json({ error : true, message : "Counter Party Not Valid"}).end()
+        return
+    } else if (!req.body.trading_party || req.body.trading_party.length === 0) {
+        res.status(400).json({ error : true, message : "Trading Party Not Valid"}).end()
+        return
+    } else if (!req.body.amount) {
+        res.status(400).json({ error : true, message : "Amount should not be a negative number"}).end()
+        return
+    }
 
     const transaction = new Transaction({
-        trading_party: 'Me',
+        trading_party: req.body.trading_party,
         counter_party: req.body.counter_party,
         amount: req.body.amount,
     });
@@ -32,7 +41,6 @@ transactionsRouter.get('/compressed', async (req, res) => {
 
     res.status(200).send(compressedTransactions).end();
 });
-
 
 
 module.exports = {
