@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
 
+// Load all env vars
+require('dotenv').config()
+
+
 const {DB_URI, SERVER_PORT} = require('./helpers/projectConstants');
 const { transactionsRouter } = require('./routes/transactionsRoute');
 
