@@ -40,8 +40,9 @@ A transaction display and compression app built with React and node.js.
 ## What I've done
 1. Added the ability for trading_party to be anyone.
 1. json2csv - conversion of JSON to a downloadable csv file.
-1. MongoDB + mongoose - for a more complex and organized persistency
-1. Bunyan - as a logger for incoming requests and outgoing responses
+1. MongoDB + mongoose - for a more complex and organized persistency.
+1. Bunyan - as a logger for incoming requests and outgoing responses.
+1. Validations are being done both at the client and server sides.
 
 ## Cloning and Running the project
 - The url for the git repository: ``git@github.com:yotamZaken/capitolis.git``
